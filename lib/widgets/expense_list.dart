@@ -44,6 +44,10 @@ class _ExpenseListState extends State<ExpenseList> {
     setState(() => _items.remove(item));
   }
 
+  void _clearList() {
+    setState(_items.clear);
+  }
+
   Future<void> _editTitle() async {
     final controller = TextEditingController(text: _title);
     final newTitle = await showDialog<String>(
@@ -140,12 +144,27 @@ class _ExpenseListState extends State<ExpenseList> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _addItem,
-        backgroundColor: AppColors.sage,
-        foregroundColor: Colors.white,
-        icon: const Icon(Icons.add_rounded),
-        label: const Text('Add item'),
+      floatingActionButton: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton.extended(
+            heroTag: 'clear-list',
+            onPressed: _clearList,
+            backgroundColor: AppColors.terracotta,
+            foregroundColor: Colors.white,
+            icon: const Icon(Icons.delete_sweep_outlined),
+            label: const Text('Clear list'),
+          ),
+          const SizedBox(width: 12),
+          FloatingActionButton.extended(
+            heroTag: 'add-item',
+            onPressed: _addItem,
+            backgroundColor: AppColors.sage,
+            foregroundColor: Colors.white,
+            icon: const Icon(Icons.add_rounded),
+            label: const Text('Add item'),
+          ),
+        ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
